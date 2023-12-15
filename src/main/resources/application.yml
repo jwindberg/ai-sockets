@@ -1,0 +1,10 @@
+spring.ai:
+  openai:
+    api-key: ${OPENAI_API_KEY}
+  ollama:
+    baseUrl: "http://onyx.local:11434"
+    model: llama2
+
+logging:
+  level:
+    com.marsraver:  DEBUG
