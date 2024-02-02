@@ -16,7 +16,7 @@ public class AnswerController {
 	@SendTo("/topic/answers")
 	public Response greeting(Request message) throws Exception {
 		Thread.sleep(1000); // simulated delay
-		String answer = aiService.ask(message.getQuestion());
+		String answer = aiService.ask(message.getChatId(), message.getQuestion());
 		return new Response(answer);
 	}
 

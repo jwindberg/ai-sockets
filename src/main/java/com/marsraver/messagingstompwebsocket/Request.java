@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Request {
-
+    private String chatId = "1";
     private String question;
 
 }

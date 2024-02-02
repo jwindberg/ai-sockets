@@ -1,36 +1,39 @@
 package com.marsraver.messagingstompwebsocket;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.client.AiClient;
 import org.springframework.ai.client.AiResponse;
 import org.springframework.ai.client.Generation;
-import org.springframework.ai.metadata.ChoiceMetadata;
 import org.springframework.ai.prompt.Prompt;
 import org.springframework.ai.prompt.messages.ChatMessage;
 import org.springframework.ai.prompt.messages.Message;
 import org.springframework.ai.prompt.messages.MessageType;
-import org.springframework.ai.prompt.messages.UserMessage;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-@AllArgsConstructor
 public class AiService {
     private AiClient aiClient;
+    private Map<String, List<BackAndForth>> chats = new HashMap<>();
 
-    private List<BackAndForth> backAndForths = new LinkedList<>();
+    public AiService(AiClient aiClient) {
+        this.aiClient = aiClient;
+    }
 
-    public String ask(String message) {
+    public String ask(String chatId, String message) {
         log.debug("Message: " + message);
+
+        if (!chats.containsKey(chatId)) {
+            chats.put(chatId, new LinkedList<>());
+        }
+        List<BackAndForth> backAndForths = chats.get(chatId);
 
         List<Message> messages = new LinkedList<>();
         backAndForths.forEach(b -> {
